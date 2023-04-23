@@ -1,9 +1,9 @@
 ﻿using System;
 namespace German.Application.DTOs
 {
-	public class Authordto
+	public class Coursedto
 	{
-		public Authordto()
+		public Coursedto()
 		{
 		}
 	}

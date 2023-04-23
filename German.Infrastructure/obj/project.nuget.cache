@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "/KRr9NxUEOH4f1depx6GqTS9q5qPim7dqmdUmLz+gh3jLtU9noURsVg1/vYiIV9/82+ojsIArngDgMilNbIyzA==",
+  "success": true,
+  "projectFilePath": "/Users/tomilolaolaniyi/Documents/GitHub/german/German.Infrastructure/German.Infrastructure.csproj",
+  "expectedPackageFiles": [
+    "/Users/tomilolaolaniyi/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/Users/tomilolaolaniyi/.nuget/packages/netstandard.library/2.0.3/netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
