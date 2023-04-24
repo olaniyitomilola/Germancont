@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
 using German.Core.Interfaces;
+using German.Application.Services;
 using German.Persistence;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.OpenApi.Models;
-
+using Microsoft.AspNetCore.Identity;
+using German.Core.Entities;
 
 namespace German.API
 {
@@ -24,10 +26,15 @@ namespace German.API
         //ets caolled by runtime, use to add services to container
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(opt =>
+                opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
             services.AddControllersWithViews();
             services.AddDbContext<AppDbContext>();
+       
             services.AddScoped<IAppDbContext, AppDbContext>();
+            services.AddScoped<IAuthorAuthService, AuthorAuthService>();
+            services.AddScoped<ITokenService, TokenService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "German LMS", Version = "v1" });

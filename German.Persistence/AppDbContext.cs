@@ -15,7 +15,7 @@ namespace German.Persistence
 			this.Database.Migrate();
 
 		}
-		public DbSet<AuthorCourseLesson> AuthorCourseLessons { get; set; }
+		public DbSet<UserCourse> UserCourses { get; set; }
 
      
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -31,23 +31,23 @@ namespace German.Persistence
             modelBuilder.Entity<Course>().HasQueryFilter(e => e.IsDeleted == false);
             modelBuilder.Entity<CourseLesson>().HasQueryFilter(e => e.IsDeleted == false);
             modelBuilder.Entity<Author>().HasQueryFilter(e => e.IsDeleted == false);
-            #endregion
+			#endregion
 
-            //Many to Many table
-
+			//Many to Many table
+		
             #region many to many
-		/*	modelBuilder.Entity<AuthorCourseLesson>()
-				.HasKey(p => new {p.AuthorId,p.CourseLessonId});
+			modelBuilder.Entity<UserCourse>()
+				.HasKey(p => new {p.UserId,p.CourseId});
 
-			modelBuilder.Entity<AuthorCourseLesson>()
-				.HasOne(p => p.Author)
-				.WithMany(p => p.CourseLessons)
-				.HasForeignKey(p => p.AuthorId);
+			modelBuilder.Entity<UserCourse>()
+				.HasOne(p => p.user)
+				.WithMany(p => p.Courses)
+				.HasForeignKey(p => p.UserId);
 
-			modelBuilder.Entity<AuthorCourseLesson>()
-				.HasOne(p => p.courseLessons)
-				.WithMany(p => p.Authors)
-				.HasForeignKey(p => p.CourseLessonId); */
+			modelBuilder.Entity<UserCourse>()
+				.HasOne(p => p.course)
+				.WithMany(p => p.users)
+				.HasForeignKey(p => p.CourseId); 
             #endregion
         }
 

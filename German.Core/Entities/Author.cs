@@ -28,7 +28,7 @@ namespace German.Core.Entities
        
 
 
-        public ICollection<AuthorCourseLesson> CourseLessons { get;set; }
+      //  public ICollection<AuthorCourseLesson> CourseLessons { get;set; }
         public ICollection<Course> Courses { get; set; }
     }
 }

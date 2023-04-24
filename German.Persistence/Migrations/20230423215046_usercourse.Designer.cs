@@ -4,6 +4,7 @@ using German.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace German.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230423215046_usercourse")]
+    partial class usercourse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,6 +77,17 @@ namespace German.Persistence.Migrations
                     b.ToTable("Authors");
                 });
 
+            modelBuilder.Entity("German.Core.Entities.AuthorCourseLesson", b =>
+                {
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseLessonId")
+                        .HasColumnType("int");
+
+                    b.ToTable("AuthorCourseLessons");
+                });
+
             modelBuilder.Entity("German.Core.Entities.Course", b =>
                 {
                     b.Property<int>("Id")
@@ -100,7 +114,7 @@ namespace German.Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("authorid")
@@ -121,6 +135,9 @@ namespace German.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Attachments")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
@@ -136,13 +153,16 @@ namespace German.Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LessonParagraphs")
+                    b.Property<string>("LessonDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LessonTitle")
+                    b.Property<string>("LessonName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SubscriptionType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -197,21 +217,6 @@ namespace German.Persistence.Migrations
                     b.ToTable("users");
                 });
 
-            modelBuilder.Entity("German.Core.Entities.UserCourse", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "CourseId");
-
-                    b.HasIndex("CourseId");
-
-                    b.ToTable("UserCourses");
-                });
-
             modelBuilder.Entity("German.Core.Entities.Course", b =>
                 {
                     b.HasOne("German.Core.Entities.Author", "author")
@@ -234,25 +239,6 @@ namespace German.Persistence.Migrations
                     b.Navigation("course");
                 });
 
-            modelBuilder.Entity("German.Core.Entities.UserCourse", b =>
-                {
-                    b.HasOne("German.Core.Entities.Course", "course")
-                        .WithMany("users")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("German.Core.Entities.User", "user")
-                        .WithMany("Courses")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("course");
-
-                    b.Navigation("user");
-                });
-
             modelBuilder.Entity("German.Core.Entities.Author", b =>
                 {
                     b.Navigation("Courses");
@@ -261,13 +247,6 @@ namespace German.Persistence.Migrations
             modelBuilder.Entity("German.Core.Entities.Course", b =>
                 {
                     b.Navigation("CourseLessons");
-
-                    b.Navigation("users");
-                });
-
-            modelBuilder.Entity("German.Core.Entities.User", b =>
-                {
-                    b.Navigation("Courses");
                 });
 #pragma warning restore 612, 618
         }

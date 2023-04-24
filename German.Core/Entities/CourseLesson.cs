@@ -23,13 +23,10 @@ namespace German.Core.Entities
         public int CourseId { get; set; }
 
         [Required]
-        public string LessonName { get; set; }
+        public string LessonTitle { get; set; }
         [Required]
-        public string LessonDescription { get;set;}
-        [Required]
-        public SubscriptionType SubscriptionType { get; set; }
+        public string LessonParagraphs { get;set;}
 
-        public String Attachments { get; set; }
 
 
 

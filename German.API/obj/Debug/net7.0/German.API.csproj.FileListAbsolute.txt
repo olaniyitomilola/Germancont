@@ -349,6 +349,8 @@
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/NuGet.ProjectModel.dll
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/NuGet.Protocol.dll
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/NuGet.Versioning.dll
+/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/Pipelines.Sockets.Unofficial.dll
+/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/StackExchange.Redis.dll
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/Swashbuckle.AspNetCore.Swagger.dll
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -541,8 +543,8 @@
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/German.Persistence.dll
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/German.Application.pdb
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/German.Core.pdb
-/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/German.Infrastructure.pdb
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/German.Persistence.pdb
+/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/German.Infrastructure.pdb
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/obj/Debug/net7.0/German.API.csproj.AssemblyReference.cache
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/obj/Debug/net7.0/German.API.GeneratedMSBuildEditorConfig.editorconfig
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/obj/Debug/net7.0/German.API.AssemblyInfoInputs.cache
@@ -564,5 +566,3 @@
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/obj/Debug/net7.0/German.API.pdb
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/obj/Debug/net7.0/German.API.genruntimeconfig.cache
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/obj/Debug/net7.0/ref/German.API.dll
-/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/Pipelines.Sockets.Unofficial.dll
-/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/StackExchange.Redis.dll

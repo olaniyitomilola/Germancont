@@ -1,5 +1,5 @@
 ﻿using System;
-namespace German.Application.DTOs
+namespace German.Core.DTOs
 {
 	public class Authordto
 	{

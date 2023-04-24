@@ -7,6 +7,10 @@ namespace German.Core.Entities
 {
     public class User : IAuditableEntity
     {
+        public User() {
+            this.Courses = new HashSet<UserCourse>();
+        }
+
         public int Id { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
@@ -21,5 +25,8 @@ namespace German.Core.Entities
 
         public string PhoneNumber { get; set; }
         public string Suffix { get; set; }
+
+        public ICollection<UserCourse> Courses { get; set; }
+
     }
 }

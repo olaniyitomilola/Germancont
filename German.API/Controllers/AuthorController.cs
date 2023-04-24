@@ -3,7 +3,7 @@ using German.Persistence;
 using German.Core.Interfaces;
 using German.Core.Entities;
 using Microsoft.AspNetCore.Identity;
-using German.Application.DTOs;
+using German.Core.DTOs;
 
 namespace German.API.Controllers
 {
@@ -13,9 +13,13 @@ namespace German.API.Controllers
     {
         private readonly IAppDbContext _db;
         private readonly ILogger<AuthorController> _logger;
-        public AuthorController(IAppDbContext db, ILogger<AuthorController> logger) {
+        private readonly IAuthorAuthService _authorAuthService;
+        private readonly ITokenService _tokenService;
+        public AuthorController(IAppDbContext db, ILogger<AuthorController> logger,IAuthorAuthService authorAuthService, ITokenService tokenService) {
             _db = db;
             _logger = logger;
+            _authorAuthService = authorAuthService;
+            _tokenService = tokenService;
         }
 
         [HttpGet]
@@ -54,6 +58,38 @@ namespace German.API.Controllers
                 {
                     _logger.LogError(ex.Message);
                     return BadRequest(ex.Message);
+
+                }
+            }
+
+        }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login( [FromBody] LoginDto loginDto)
+        {
+            try
+            {
+                var author = await _authorAuthService.Authenticate(loginDto);
+
+                if(author == null)
+                {
+                    return Unauthorized();
+                }
+
+                var token = _tokenService.GenerateToken(author);
+
+                return Ok(new { token });
+            }
+            catch (Exception ex)
+            {
+
+                if (ex is ApplicationException)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                    return BadRequest(ex.ToString());
 
                 }
             }

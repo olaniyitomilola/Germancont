@@ -9,7 +9,6 @@ namespace German.Persistence
 	{
 
         public DbSet<Course> Courses { get; set; }
-        public DbSet<CourseLesson> CourseLessons { get; set; } 
 
 
 

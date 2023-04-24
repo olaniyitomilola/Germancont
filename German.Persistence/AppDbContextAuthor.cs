@@ -36,6 +36,21 @@ namespace German.Persistence
 
             return author;
         }
+
+        public async Task<Author> SelectAuthorByEmailAsync(string email)
+        {
+            var author = await this.Authors
+
+                        .AsNoTracking()
+                        .Include(a => a.Courses)
+                        .FirstOrDefaultAsync(p => p.Email == email);
+            if (author == null)
+            {
+                throw new ApplicationException($"Author with id: {email} does not exist");
+            }
+
+            return author;
+        }
         public async Task<List<Author>> SelectAllAuthorsAsync()
         {
             return await this.Authors.ToListAsync();

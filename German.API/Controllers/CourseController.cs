@@ -2,6 +2,7 @@
 using German.Persistence;
 using German.Core.Interfaces;
 using German.Core.Entities;
+using German.Core.DTOs;
 
 namespace German.API.Controllers
 {
@@ -65,11 +66,36 @@ namespace German.API.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> Post(Course course)
+        public async Task<IActionResult> Post(CourseDto coursedto)
         {
-            var response = await _db.CreateCourseAsync(course);
 
-            return CreatedAtAction(nameof(GetById), new { id = course.Id }, course);
+            Course course = new Course();
+            course.Title = coursedto.Title;
+            course.Description = coursedto.Description;
+            course.authorid = coursedto.authorid;
+
+            try
+            {
+               //var author = await _db.SelectAuthorByIdAsync(coursedto.authorid);
+               //course.author = author;
+                var response = await _db.CreateCourseAsync(course);
+
+                return CreatedAtAction(nameof(GetById), new { id = course.Id }, course);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                if (ex is ApplicationException)
+                {
+                    return NotFound("Author does not exist");
+                }
+                else {
+                    return BadRequest(ex.Message);
+                }
+
+            }
+        
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -107,13 +133,13 @@ namespace German.API.Controllers
 
         [HttpPut("{id}")]
 
-        public async Task<IActionResult> Put(int id, Course course)
+        public async Task<IActionResult> Put(int id, CourseDto course)
         {
             try
             {
                 var excourse = await _db.SelectCourseByIdAsync(id);
 
-                excourse.Name = course.Name;
+                excourse.Title = course.Title;
                 excourse.Description = course.Description;
                 excourse.CourseUrl = course.Description;
                 try
