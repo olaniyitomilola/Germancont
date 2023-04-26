@@ -24,6 +24,8 @@ namespace German.Application.Services
         {
                 var claims = new[]
             {
+                // "sub" claim is typically
+                // //used to identify the subject of the JWT,
                 new Claim(JwtRegisteredClaimNames.Sub, author.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, author.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
@@ -38,7 +40,6 @@ namespace German.Application.Services
                     expires: DateTime.UtcNow.AddMinutes(30),
                     signingCredentials: creds
                 );
-
                 return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }

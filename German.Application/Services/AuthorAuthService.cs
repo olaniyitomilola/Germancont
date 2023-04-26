@@ -30,6 +30,24 @@ namespace German.Application.Services
 
             return author;
         }
+
+        public async Task<bool> EmailExists(string email)
+        {
+            try
+            {
+                var exist = await _db.SelectAuthorByEmailAsync(email);
+                //this throws Application exception if null, so just return true
+                return true;
+
+            }catch(Exception ex)
+            {
+                if (ex is ApplicationException) return false;
+
+                throw new Exception(ex.Message);
+            }
+
+      
+        }
     }
 }
 

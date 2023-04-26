@@ -566,3 +566,6 @@
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/obj/Debug/net7.0/German.API.pdb
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/obj/Debug/net7.0/German.API.genruntimeconfig.cache
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/obj/Debug/net7.0/ref/German.API.dll
+/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/AutoMapper.dll
+/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll

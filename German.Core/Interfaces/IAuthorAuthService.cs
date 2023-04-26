@@ -8,6 +8,7 @@ namespace German.Core.Interfaces
 	public interface IAuthorAuthService
 	{
 		Task<Author> Authenticate(LoginDto logindto);
+		Task<bool> EmailExists(string email);
 	}
 }
 

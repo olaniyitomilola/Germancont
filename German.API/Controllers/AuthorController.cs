@@ -4,6 +4,10 @@ using German.Core.Interfaces;
 using German.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using German.Core.DTOs;
+using AutoMapper;
+using NuGet.Common;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace German.API.Controllers
 {
@@ -15,12 +19,15 @@ namespace German.API.Controllers
         private readonly ILogger<AuthorController> _logger;
         private readonly IAuthorAuthService _authorAuthService;
         private readonly ITokenService _tokenService;
-        public AuthorController(IAppDbContext db, ILogger<AuthorController> logger,IAuthorAuthService authorAuthService, ITokenService tokenService) {
+        private readonly IMapper _mapper;
+        public AuthorController(IMapper mapper, IAppDbContext db, ILogger<AuthorController> logger,IAuthorAuthService authorAuthService, ITokenService tokenService) {
             _db = db;
             _logger = logger;
             _authorAuthService = authorAuthService;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
+     
 
         [HttpGet]
 
@@ -30,7 +37,9 @@ namespace German.API.Controllers
             {
                 var authors = await _db.SelectAllAuthorsAsync();
 
-                return Ok(authors);
+                var authorsprofile = _mapper.Map<List<AuthorProfileDto>>(authors);
+
+                return Ok(authorsprofile);
             }catch(Exception ex)
             {
                 _logger.LogError(ex.Message, ex); 
@@ -44,6 +53,7 @@ namespace German.API.Controllers
         {
             try
             {
+
                 var authors = await _db.SelectAuthorByIdAsync(id);
                 return Ok(authors);
 
@@ -63,9 +73,61 @@ namespace German.API.Controllers
             }
 
         }
+        [Authorize]
+        [HttpGet("profile")]
+        public async Task<IActionResult> GetUserProfile()
+        {
+            try
+            {
+                //gets the Sub value
+                var userId =  User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return BadRequest("Unable to retrieve ser info");
+                }
+                if(int.TryParse(userId, out int id)){
+
+                    Author author = await _db.SelectAuthorByIdAsync(id);
+
+                    if(author != null)
+                    {
+                        return Ok(author);
+                    }
+                    return NotFound();
+
+
+                }else
+                {
+                    return Unauthorized();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                if (ex is ApplicationException)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                    return BadRequest(ex.Message);
+
+                }
+            }
+
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login( [FromBody] LoginDto loginDto)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             try
             {
                 var author = await _authorAuthService.Authenticate(loginDto);
@@ -85,6 +147,7 @@ namespace German.API.Controllers
                 if (ex is ApplicationException)
                 {
                     return NotFound();
+
                 }
                 else
                 {
@@ -96,47 +159,48 @@ namespace German.API.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost("signup")]
 
-        public async Task<IActionResult> Post(Authordto authordto)
+        public async Task<IActionResult> Signup(Authordto authordto)
         {
 
-            Author author = new Author();
-            author.FirstName = authordto.FirstName;
-            author.LastName = authordto.LastName;
-            author.MiddleName = authordto.MiddleName;
-            author.Password = authordto.Password;
-            author.PhoneNumber = authordto.PhoneNumber;
-            author.Suffix = author.Suffix;
-            author.Email = authordto.Email;
-            author.Description = authordto.Description;
-            author.webUrl = authordto.webUrl;
-
-            var passwordHasher = new PasswordHasher<Author>();
-
-
-            //test
-            author.Password = passwordHasher.HashPassword(author, author.Password);
-            var response = await _db.CreateAuthorAsync(author);
-
-
-            /*
-
-            var passwordHasher = new PasswordHasher<User>();
-            var passwordVerificationResult = passwordHasher.VerifyHashedPassword(user, hashedPassword, plainTextPassword);
-
-            if (passwordVerificationResult == PasswordVerificationResult.Success)
+            try
             {
-                // Password is correct
-            }
-            else
+                
+                bool exist = await _authorAuthService.EmailExists(authordto.Email);
+
+                if (exist)
+                {
+                    return Conflict("Email is already in use");
+                }
+
+                //use AutoMapper for this later
+                Author autho = _mapper.Map<Author>(authordto);
+                Author author = new Author();
+                author.FirstName = authordto.FirstName;
+                author.LastName = authordto.LastName;
+                author.MiddleName = authordto.MiddleName;
+                author.Password = authordto.Password;
+                author.PhoneNumber = authordto.PhoneNumber;
+                author.Email = authordto.Email;
+                author.Description = authordto.Description;
+                author.webUrl = authordto.webUrl;
+
+                var passwordHasher = new PasswordHasher<Author>();
+
+
+                //test
+                author.Password = passwordHasher.HashPassword(author, author.Password);
+                var response = await _db.CreateAuthorAsync(author);
+
+                var token = _tokenService.GenerateToken(response);
+
+                return Ok(new { token });
+            }catch(Exception ex)
             {
-                // Password is incorrect
+                return BadRequest(ex.Message);
             }
-
-            */
-
-            return CreatedAtAction(nameof(GetById), new { id = author.Id}, author);
+           
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -187,7 +251,6 @@ namespace German.API.Controllers
                     if (newAuthor.PhoneNumber != null) author.PhoneNumber = newAuthor.PhoneNumber;
                     if (newAuthor.Email != null) author.Email = newAuthor.Email;
                     if (newAuthor.Description != null) author.Description = newAuthor.Description;
-                    if (newAuthor.Suffix != null) author.Suffix = newAuthor.Suffix;
 
                     var response = await _db.UpdateAuthorAsync(author);
                     return Ok(response);

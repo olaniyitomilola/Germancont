@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "edlk7XTPoxEKFW3G59LwMe/qpXYNhnu1yh8AlSNKWvWPpn+N564RzpTmPFihGZLcvwAdVwdAv/o5jPkHLfzTbg==",
+  "dgSpecHash": "7ZNs6X/vDwWaJmgNQJOQHSZCy9zYLxGObthSRWyjTdio2mNy0UdyelvPpc0EknTmeVYN9WY69JPj0F3RCDsHdw==",
   "success": true,
   "projectFilePath": "/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/German.API.csproj",
   "expectedPackageFiles": [
@@ -13,6 +13,8 @@
     "/Users/tomilolaolaniyi/.nuget/packages/microsoft.aspnetcore.authentication.abstractions/2.2.0/microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "/Users/tomilolaolaniyi/.nuget/packages/microsoft.aspnetcore.authentication.cookies/2.2.0/microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",
     "/Users/tomilolaolaniyi/.nuget/packages/microsoft.aspnetcore.authentication.core/2.2.0/microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",
+    "/Users/tomilolaolaniyi/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/7.0.5/microsoft.aspnetcore.authentication.jwtbearer.7.0.5.nupkg.sha512",
+    "/Users/tomilolaolaniyi/.nuget/packages/microsoft.aspnetcore.cors/2.2.0/microsoft.aspnetcore.cors.2.2.0.nupkg.sha512",
     "/Users/tomilolaolaniyi/.nuget/packages/microsoft.aspnetcore.cryptography.internal/2.2.0/microsoft.aspnetcore.cryptography.internal.2.2.0.nupkg.sha512",
     "/Users/tomilolaolaniyi/.nuget/packages/microsoft.aspnetcore.cryptography.keyderivation/2.2.0/microsoft.aspnetcore.cryptography.keyderivation.2.2.0.nupkg.sha512",
     "/Users/tomilolaolaniyi/.nuget/packages/microsoft.aspnetcore.dataprotection/2.2.0/microsoft.aspnetcore.dataprotection.2.2.0.nupkg.sha512",
