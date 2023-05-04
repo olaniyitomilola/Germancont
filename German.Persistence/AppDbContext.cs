@@ -15,15 +15,16 @@ namespace German.Persistence
 			this.Database.Migrate();
 
 		}
-		public DbSet<UserCourse> UserCourses { get; set; }
 
      
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			optionsBuilder.UseSqlServer(this.configuration.GetConnectionString("database"));
 		}
-		//soft delete - more research
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+
+        //soft delete - more research
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
             #region SoftDeletes
 			//wont show the deleted data when not queried
@@ -31,17 +32,19 @@ namespace German.Persistence
             modelBuilder.Entity<Course>().HasQueryFilter(e => e.IsDeleted == false);
             modelBuilder.Entity<CourseLesson>().HasQueryFilter(e => e.IsDeleted == false);
             modelBuilder.Entity<Author>().HasQueryFilter(e => e.IsDeleted == false);
-			#endregion
+            modelBuilder.Entity<UserCourse>().HasQueryFilter(e => e.IsDeleted == false);
 
-			//Many to Many table
-		
+            #endregion
+
+            //Many to Many table
+
             #region many to many
-			modelBuilder.Entity<UserCourse>()
+            modelBuilder.Entity<UserCourse>()
 				.HasKey(p => new {p.UserId,p.CourseId});
 
 			modelBuilder.Entity<UserCourse>()
 				.HasOne(p => p.user)
-				.WithMany(p => p.Courses)
+				.WithMany(p => p.MyCourses)
 				.HasForeignKey(p => p.UserId);
 
 			modelBuilder.Entity<UserCourse>()

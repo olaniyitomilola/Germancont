@@ -37,12 +37,12 @@ namespace German.Test.Services
                 new Course
                 {
                     Id = 1,
-                    Name = "Course 1"
+                    Title = "Course 1"
                 },
                 new Course
                 {
                     Id = 2,
-                    Name = "Course 2"
+                    Title = "Course 2"
                 }
             };
 
@@ -77,7 +77,7 @@ namespace German.Test.Services
             Course expectedCourse = new()
             {
                 Id = 1,
-                Name = "Introduction to Remote Sensing"
+                Title = "Introduction to Remote Sensing"
             };
             //clone course
             Course databaseCourse = this.mapper.Map<Course>(expectedCourse);

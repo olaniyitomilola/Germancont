@@ -10,10 +10,12 @@
     <None Remove="Options\" />
     <None Remove="Types\" />
     <None Remove="DTOs\" />
+    <None Remove="CustomResponses\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Options\" />
     <Folder Include="DTOs\" />
+    <Folder Include="CustomResponses\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
