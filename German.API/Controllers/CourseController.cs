@@ -3,6 +3,7 @@ using German.Persistence;
 using German.Core.Interfaces;
 using German.Core.Entities;
 using German.Core.DTOs;
+using AutoMapper;
 
 namespace German.API.Controllers
 {
@@ -12,10 +13,12 @@ namespace German.API.Controllers
     {
         private readonly IAppDbContext _db;
         private readonly ILogger<AuthorController> _logger;
-        public CourseController(IAppDbContext db, ILogger<AuthorController> logger)
+        private readonly IMapper _mapper;
+        public CourseController(IMapper mapper, IAppDbContext db, ILogger<AuthorController> logger)
         {
             _db = db;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -66,6 +69,8 @@ namespace German.API.Controllers
 
         [HttpPost]
 
+        //authorize that the poster is a contributor
+
         public async Task<IActionResult> Post(CourseDto coursedto)
         {
 
@@ -76,9 +81,12 @@ namespace German.API.Controllers
 
             try
             {
-               //var author = await _db.SelectAuthorByIdAsync(coursedto.authorid);
-               //course.author = author;
+               var author = await _db.SelectAuthorByIdAsync(coursedto.authorid);
+               var authorsprofile = _mapper.Map<AuthorProfileDto>(author);
+
+                course.author = _mapper.Map<Author>(authorsprofile);
                 var response = await _db.CreateCourseAsync(course);
+
 
                 return CreatedAtAction(nameof(GetById), new { id = course.Id }, course);
             }
@@ -97,6 +105,8 @@ namespace German.API.Controllers
             }
         
         }
+        //do authorization
+        //just check the id of the user
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

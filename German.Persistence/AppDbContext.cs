@@ -15,7 +15,6 @@ namespace German.Persistence
 			this.Database.Migrate();
 
 		}
-		public DbSet<UserCourse> UserCourses { get; set; }
 
      
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -34,14 +33,14 @@ namespace German.Persistence
 			#endregion
 
 			//Many to Many table
-		
+	
             #region many to many
 			modelBuilder.Entity<UserCourse>()
 				.HasKey(p => new {p.UserId,p.CourseId});
 
 			modelBuilder.Entity<UserCourse>()
 				.HasOne(p => p.user)
-				.WithMany(p => p.Courses)
+				.WithMany(p => p.myCourses)
 				.HasForeignKey(p => p.UserId);
 
 			modelBuilder.Entity<UserCourse>()

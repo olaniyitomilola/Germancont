@@ -14,7 +14,7 @@ namespace German.Persistence
     public partial class AppDbContext : IAppDbContext
     {
         public DbSet<Author> Authors { get; set; }
-        public DbSet<User> users { get; set; }  
+       // public DbSet<User> users { get; set; }  
 
         public async Task<Author> CreateAuthorAsync(Author author)
         {

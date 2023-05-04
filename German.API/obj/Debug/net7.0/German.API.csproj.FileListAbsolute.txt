@@ -288,9 +288,12 @@
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/German.API.runtimeconfig.json
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/German.API.dll
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/German.API.pdb
+/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/AutoMapper.dll
+/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/Azure.Core.dll
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/Azure.Identity.dll
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/Humanizer.dll
+/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/Microsoft.AspNetCore.Razor.Language.dll
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/Microsoft.Bcl.AsyncInterfaces.dll
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/Microsoft.Build.dll
@@ -566,6 +569,3 @@
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/obj/Debug/net7.0/German.API.pdb
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/obj/Debug/net7.0/German.API.genruntimeconfig.cache
 /Users/tomilolaolaniyi/Documents/GitHub/german/German.API/obj/Debug/net7.0/ref/German.API.dll
-/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/AutoMapper.dll
-/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
-/Users/tomilolaolaniyi/Documents/GitHub/german/German.API/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
