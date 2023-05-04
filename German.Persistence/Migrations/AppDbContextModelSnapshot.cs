@@ -30,9 +30,6 @@ namespace German.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Contributor")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -64,6 +61,9 @@ namespace German.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Suffix")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("webUrl")

@@ -37,7 +37,7 @@ namespace German.Application.Services
                     issuer: _config["Jwt:Issuer"],
                     audience: _config["Jwt:Issuer"],
                     claims: claims,
-                    expires: DateTime.UtcNow.AddDays(7),
+                    expires: DateTime.UtcNow.AddMinutes(30),
                     signingCredentials: creds
                 );
                 return new JwtSecurityTokenHandler().WriteToken(token);

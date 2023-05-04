@@ -8,7 +8,6 @@ using AutoMapper;
 using NuGet.Common;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using German.Core.CustomResponses;
 
 namespace German.API.Controllers
 {
@@ -90,12 +89,9 @@ namespace German.API.Controllers
 
                     Author author = await _db.SelectAuthorByIdAsync(id);
 
-                    
-
                     if(author != null)
                     {
-                        var newAuthor = _mapper.Map<AuthorProfileDto>(author);
-                        return Ok(newAuthor);
+                        return Ok(author);
                     }
                     return NotFound();
 
@@ -156,7 +152,7 @@ namespace German.API.Controllers
                 else
                 {
                     _logger.LogError(ex.Message);
-                    return BadRequest("Something went wrong");
+                    return BadRequest(ex.ToString());
 
                 }
             }
@@ -179,16 +175,16 @@ namespace German.API.Controllers
                 }
 
                 //use AutoMapper for this later
-                Author author = _mapper.Map<Author>(authordto);
-                //Author author = new Author();
-                //author.FirstName = authordto.FirstName;
-                //author.LastName = authordto.LastName;
-                //author.MiddleName = authordto.MiddleName;
-                //author.Password = authordto.Password;
-                //author.PhoneNumber = authordto.PhoneNumber;
-                //author.Email = authordto.Email;
-                //author.Description = authordto.Description;
-                //author.webUrl = authordto.webUrl;
+                Author autho = _mapper.Map<Author>(authordto);
+                Author author = new Author();
+                author.FirstName = authordto.FirstName;
+                author.LastName = authordto.LastName;
+                author.MiddleName = authordto.MiddleName;
+                author.Password = authordto.Password;
+                author.PhoneNumber = authordto.PhoneNumber;
+                author.Email = authordto.Email;
+                author.Description = authordto.Description;
+                author.webUrl = authordto.webUrl;
 
                 var passwordHasher = new PasswordHasher<Author>();
 
@@ -281,108 +277,5 @@ namespace German.API.Controllers
             }
 
         }
-
-         [Authorize]
-        [HttpPut("resetpassword")]
-        //public async Task<IActionResult> ResetPassword([FromBody] string password)
-        //{
-        //    try
-        //    {
-        //        var author = await _db.SelectAuthorByIdAsync(id);
-
-        //        try
-        //        {
-                    
-
-        //            var response = await _db.UpdateAuthorAsync(author);
-        //            return Ok(response);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            _logger.LogError(ex.Message);
-        //            return BadRequest(ex.Message);
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        if (ex is ApplicationException)
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            _logger.LogError(ex.Message);
-        //            return BadRequest(ex.Message);
-
-        //        }
-        //    }
-
-        //}
-        [Authorize]
-        [HttpGet("becomeacontributor")]
-        public async Task<IActionResult> BecomeAContributor()
-        {
-            try
-            {
-                //gets the Sub value
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                if (string.IsNullOrEmpty(userId))
-                {
-                    _logger.LogError("Unable to retrieve user info");
-                    return BadRequest("Unable to retrieve user info");
-                }
-                if (int.TryParse(userId, out int id))
-                {
-
-                    Author author = await _db.SelectAuthorByIdAsync(id);
-
-
-
-                    if (author != null)
-                    {
-                        //You might want to check if user is alreadly an Author
-                        author.Contributor = true;
-                        try
-                        {
-                            var newAuthor = await _db.UpdateAuthorAsync(author);
-                            return Ok(new Success(true, "You are now a Contributor"));
-                        }catch(Exception ex)
-                        {
-                            _logger.LogError(ex.Message);
-                            return BadRequest(ex.Message);
-
-                         }
-
-                    }
-                    _logger.LogError("User not found");
-                    return NotFound();
-
-
-                }
-                else
-                {
-                    return Unauthorized();
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-
-                if (ex is ApplicationException)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    _logger.LogError(ex.Message);
-                    return BadRequest(ex.Message);
-
-                }
-            }
-
-        }
-
     }
 }

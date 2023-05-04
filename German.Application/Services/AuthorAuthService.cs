@@ -48,8 +48,6 @@ namespace German.Application.Services
 
       
         }
-
-
     }
 }
 

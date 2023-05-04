@@ -9,7 +9,6 @@ namespace German.Core.Entities
         public Author() { 
            // this.CourseLessons = new HashSet<AuthorCourseLesson>(); //made one author per course
             this.Courses = new HashSet<Course>();
-            this.MyCourses = new HashSet<UserCourse>();
         }
         public int Id { get; set; }
         public DateTime DateCreated { get; set; }
@@ -25,12 +24,10 @@ namespace German.Core.Entities
         public string PhoneNumber { get; set; }
         public string webUrl { get; set; }
         public string Description { get; set; }
-        public bool Contributor { get; set; }
        
 
 
       //  public ICollection<AuthorCourseLesson> CourseLessons { get;set; }
         public ICollection<Course> Courses { get; set; }
-        public ICollection<UserCourse> MyCourses { get; set; }
     }
 }
