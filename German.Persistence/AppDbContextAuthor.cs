@@ -28,6 +28,9 @@ namespace German.Persistence
                   
                         .AsNoTracking()
                         .Include(a => a.Courses)
+                        .Include(a=> a.myCourses)
+                            .ThenInclude(c => c.course)
+                                .ThenInclude(c => c.author)
                         .FirstOrDefaultAsync(p => p.Id == authorId);
             if(author == null)
             {

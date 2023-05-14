@@ -8,7 +8,7 @@ namespace German.Core.Entities
 		public Course()
 		{
             this.CourseLessons = new HashSet<CourseLesson>();
-            this.users = new HashSet<UserCourse>();
+            this.authors = new HashSet<UserCourse>();
 		}
 
         public int Id { get; set; }
@@ -23,7 +23,7 @@ namespace German.Core.Entities
         public int authorid { get; set; }
 
         public ICollection<CourseLesson> CourseLessons { get;set; }
-        public ICollection<UserCourse> users { get; set; }
+        public ICollection<UserCourse> authors{ get; set; }
 
 
     }

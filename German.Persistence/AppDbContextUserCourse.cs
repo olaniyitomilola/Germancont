@@ -20,7 +20,8 @@ namespace German.Persistence
         }
         public async Task<List<UserCourse>> SelectAllUserCourseByIdAsync(int userId)
         {
-            return await UserCourses.Where(uc => uc.UserId == userId).ToListAsync();
+            return await UserCourses.Where(uc => uc.UserId == userId)
+                .Include(c=>c.course).ToListAsync();
         }
 
 

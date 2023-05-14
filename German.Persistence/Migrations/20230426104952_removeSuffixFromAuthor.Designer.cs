@@ -154,51 +154,51 @@ namespace German.Persistence.Migrations
                     b.ToTable("CourseLessons");
                 });
 
-            modelBuilder.Entity("German.Core.Entities.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            //modelBuilder.Entity("German.Core.Entities.User", b =>
+            //    {
+            //        b.Property<int>("Id")
+            //            .ValueGeneratedOnAdd()
+            //            .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+            //        SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+            //        b.Property<DateTime>("DateCreated")
+            //            .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateDeleted")
-                        .HasColumnType("datetime2");
+            //        b.Property<DateTime?>("DateDeleted")
+            //            .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("datetime2");
+            //        b.Property<DateTime>("DateUpdated")
+            //            .HasColumnType("datetime2");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+            //        b.Property<string>("Email")
+            //            .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+            //        b.Property<string>("FirstName")
+            //            .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+            //        b.Property<bool>("IsDeleted")
+            //            .HasColumnType("bit");
 
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+            //        b.Property<string>("LastName")
+            //            .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MiddleName")
-                        .HasColumnType("nvarchar(max)");
+            //        b.Property<string>("MiddleName")
+            //            .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+            //        b.Property<string>("Password")
+            //            .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+            //        b.Property<string>("PhoneNumber")
+            //            .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Suffix")
-                        .HasColumnType("nvarchar(max)");
+            //        b.Property<string>("Suffix")
+            //            .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+            //        b.HasKey("Id");
 
-                    b.ToTable("users");
-                });
+            //        b.ToTable("users");
+            //    });
 
             modelBuilder.Entity("German.Core.Entities.UserCourse", b =>
                 {
@@ -245,8 +245,8 @@ namespace German.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("German.Core.Entities.User", "user")
-                        .WithMany("Courses")
+                    b.HasOne("German.Core.Entities.Author", "user")
+                        .WithMany("myCourses")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -259,6 +259,7 @@ namespace German.Persistence.Migrations
             modelBuilder.Entity("German.Core.Entities.Author", b =>
                 {
                     b.Navigation("Courses");
+                   
                 });
 
             modelBuilder.Entity("German.Core.Entities.Course", b =>
@@ -268,10 +269,10 @@ namespace German.Persistence.Migrations
                     b.Navigation("users");
                 });
 
-            modelBuilder.Entity("German.Core.Entities.User", b =>
-                {
-                    b.Navigation("Courses");
-                });
+            //modelBuilder.Entity("German.Core.Entities.User", b =>
+            //    {
+            //        b.Navigation("Courses");
+            //    });
 #pragma warning restore 612, 618
         }
     }

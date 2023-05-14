@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace German.API.Controllers
 {
-    [Route("api/author")]
+    [Route("api/user")]
     [ApiController]
     public class AuthorController : Controller
     {
@@ -38,6 +38,7 @@ namespace German.API.Controllers
                 var authors = await _db.SelectAllAuthorsAsync();
 
                 var authorsprofile = _mapper.Map<List<AuthorProfileDto>>(authors);
+
 
                 return Ok(authorsprofile);
             }catch(Exception ex)
@@ -120,6 +121,168 @@ namespace German.API.Controllers
 
         }
 
+        [Authorize]
+        [HttpPut("becomeacontributor")]
+        public async Task<IActionResult> BecomeAContributor()
+        {
+            try
+            {
+                //gets the Sub value
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return BadRequest("Unable to retrieve ser info");
+                }
+                if (int.TryParse(userId, out int id))
+                {
+
+                    Author author = await _db.SelectAuthorByIdAsync(id);
+
+                    if (author != null)
+                    {
+                        try
+                        {
+                            author.Contributor = true;
+                            var newAuthor = await _db.UpdateAuthorAsync(author);
+
+                            return Ok(newAuthor);
+
+                        }catch(Exception ex)
+                        {
+                            _logger.LogError(ex.Message);
+                            return BadRequest(ex.Message);
+                        }
+                    }
+                    return NotFound();
+
+
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                if (ex is ApplicationException)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                    return BadRequest(ex.Message);
+
+                }
+            }
+
+        }
+
+
+
+        [Authorize]
+        [HttpGet("courses")]
+        public async Task<IActionResult> GetUserCourse()
+        {
+            try
+            {
+                //gets the Sub value
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return BadRequest("Unable to retrieve ser info");
+                }
+                if (int.TryParse(userId, out int id))
+                {
+
+                    Author author = await _db.SelectAuthorByIdAsync(id);
+
+                    if (author != null)
+                    {
+                        return Ok(author.myCourses);
+                    }
+                    return NotFound();
+
+
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                if (ex is ApplicationException)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                    return BadRequest(ex.Message);
+
+                }
+            }
+
+        }
+
+        [Authorize]
+        [HttpGet("contributor/courses")]
+        public async Task<IActionResult> GetContributorCourse()
+        {
+            try
+            {
+                //gets the Sub value
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return BadRequest("Unable to retrieve ser info");
+                }
+                if (int.TryParse(userId, out int id))
+                {
+
+                    Author author = await _db.SelectAuthorByIdAsync(id);
+
+                    if (author != null)
+                    {
+                        if (author.Contributor == false) return Unauthorized();
+                        return Ok(author.Courses);
+                    }
+                    return NotFound();
+
+
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                if (ex is ApplicationException)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                    return BadRequest(ex.Message);
+
+                }
+            }
+
+        }
+
+
         [HttpPost("login")]
         public async Task<IActionResult> Login( [FromBody] LoginDto loginDto)
         {
@@ -161,7 +324,7 @@ namespace German.API.Controllers
 
         [HttpPost("signup")]
 
-        public async Task<IActionResult> Signup(Authordto authordto)
+        public async Task<IActionResult> Signup([FromBody]Authordto authordto)
         {
 
             try
@@ -176,22 +339,22 @@ namespace German.API.Controllers
 
                 //use AutoMapper for this later
                 Author autho = _mapper.Map<Author>(authordto);
-                Author author = new Author();
-                author.FirstName = authordto.FirstName;
-                author.LastName = authordto.LastName;
-                author.MiddleName = authordto.MiddleName;
-                author.Password = authordto.Password;
-                author.PhoneNumber = authordto.PhoneNumber;
-                author.Email = authordto.Email;
-                author.Description = authordto.Description;
-                author.webUrl = authordto.webUrl;
+                //Author author = new Author();
+                //author.FirstName = authordto.FirstName;
+                //author.LastName = authordto.LastName;
+                //author.MiddleName = authordto.MiddleName;
+                //author.Password = authordto.Password;
+                //author.PhoneNumber = authordto.PhoneNumber;
+                //author.Email = authordto.Email;
+                //author.Description = authordto.Description;
+                //author.webUrl = authordto.webUrl;
 
                 var passwordHasher = new PasswordHasher<Author>();
 
 
                 //test
-                author.Password = passwordHasher.HashPassword(author, author.Password);
-                var response = await _db.CreateAuthorAsync(author);
+                autho.Password = passwordHasher.HashPassword(autho, autho.Password);
+                var response = await _db.CreateAuthorAsync(autho);
 
                 var token = _tokenService.GenerateToken(response);
 
@@ -251,6 +414,7 @@ namespace German.API.Controllers
                     if (newAuthor.PhoneNumber != null) author.PhoneNumber = newAuthor.PhoneNumber;
                     if (newAuthor.Email != null) author.Email = newAuthor.Email;
                     if (newAuthor.Description != null) author.Description = newAuthor.Description;
+                    if (newAuthor.Password != null) author.Password = newAuthor.Password;
 
                     var response = await _db.UpdateAuthorAsync(author);
                     return Ok(response);

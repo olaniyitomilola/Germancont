@@ -4,10 +4,12 @@ using German.Core.Interfaces;
 using German.Core.Entities;
 using German.Core.DTOs;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace German.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/course")]
     [ApiController]
     public class CourseController : Controller
     {
@@ -67,6 +69,108 @@ namespace German.API.Controllers
 
         }
 
+
+        [Authorize]
+        [HttpPost("enrol/{courseId}")]
+        public async Task<IActionResult> Enrol(int courseId)
+        {
+            try
+            {
+                //gets the Sub value
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return BadRequest("Unable to retrieve ser info");
+                }
+                if (int.TryParse(userId, out int id))
+                {
+
+                    Author author = await _db.SelectAuthorByIdAsync(id);
+
+                    if (author != null)
+                    {
+                        try
+                        {
+                            Course course = await _db.SelectCourseByIdAsync(courseId);
+                            if(course != null)
+                            {
+                                UserCourse usercourse = new UserCourse()
+                                {
+                                    //course = course,
+                                    //user = author,
+                                    UserId = id,
+                                    CourseId = courseId
+
+                                };
+
+                                /*
+                                 //ERROR
+                                   Cannot insert explicit value for identity column in table 'Authors' when IDENTITY_INSERT is set to OFF.
+                                    Cannot insert explicit value for identity column in table 'Courses' when IDENTITY_INSERT is set to OFF.
+                                    The INSERT statement conflicted with the FOREIGN KEY constraint "FK_UserCourses_users_UserId". The conflict occurred in database "GermanLMS", table "dbo.users", column 'Id'.
+                                    The statement has been terminated.
+                                 
+                                 */
+                                //temporaty manouver using update.
+
+                                var response = await _db.CreateUserCourseAsync(usercourse);
+
+                                return Ok(response);
+
+
+
+                                //author.myCourses.Add(new UserCourse()
+                                //{
+                                //    course = course,
+                                //    CourseId = course.Id,
+                                //    UserId = author.Id
+                                //});
+
+                                //var response = _db.UpdateAuthorAsync(author);
+
+                                //return Ok(author.myCourses);
+
+                            }
+                            else
+                            {
+                                return BadRequest("Course does not exist");
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            _logger.LogError(ex.Message);
+                        }
+                    }
+                    return NotFound();
+
+
+                }
+                else
+                {
+                    _logger.LogInformation($"Unauthorised access");
+                    return Unauthorized();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                if (ex is ApplicationException)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                    return BadRequest(ex.Message);
+
+                }
+            }
+
+        }
+
+
         [HttpPost]
 
         //authorize that the poster is a contributor
@@ -81,10 +185,10 @@ namespace German.API.Controllers
 
             try
             {
-               var author = await _db.SelectAuthorByIdAsync(coursedto.authorid);
-               var authorsprofile = _mapper.Map<AuthorProfileDto>(author);
+               //var author = await _db.SelectAuthorByIdAsync(coursedto.authorid);
+               //var authorsprofile = _mapper.Map<AuthorProfileDto>(author);
 
-                course.author = _mapper.Map<Author>(authorsprofile);
+               // course.author = _mapper.Map<Author>(authorsprofile);
                 var response = await _db.CreateCourseAsync(course);
 
 
@@ -151,7 +255,8 @@ namespace German.API.Controllers
 
                 excourse.Title = course.Title;
                 excourse.Description = course.Description;
-                excourse.CourseUrl = course.Description;
+                excourse.CourseUrl = course.CourseUrl;
+                if (course.authorid != excourse.authorid) excourse.authorid = course.authorid;
                 try
                 {
                     var response = await _db.UpdateCourseAsync(excourse);

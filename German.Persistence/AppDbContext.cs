@@ -45,7 +45,7 @@ namespace German.Persistence
 
 			modelBuilder.Entity<UserCourse>()
 				.HasOne(p => p.course)
-				.WithMany(p => p.users)
+				.WithMany(p => p.authors)
 				.HasForeignKey(p => p.CourseId); 
             #endregion
         }
@@ -70,7 +70,7 @@ namespace German.Persistence
                     {
 						entity.State = EntityState.Modified;
                         entity.CurrentValues["DateDeleted"] = modificationDate;
-						entity.CurrentValues["isDeleted"] = true;
+						entity.CurrentValues["IsDeleted"] = true;
                     }
 
 					entity.CurrentValues["DateUpdated"] = modificationDate;

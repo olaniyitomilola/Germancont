@@ -7,7 +7,7 @@ namespace German.Core.Entities
     public class UserCourse
     {
         public int UserId { get; set; }
-       public Author user { get; set; }
+        public Author user { get; set; }
         public int CourseId { get; set; }
         public Course course { get; set; }
 
