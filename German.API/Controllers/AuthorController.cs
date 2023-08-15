@@ -195,6 +195,8 @@ namespace German.API.Controllers
                 {
                     return BadRequest("Unable to retrieve ser info");
                 }
+                //convert userId to type int, because the next method only accepts
+                //type int
                 if (int.TryParse(userId, out int id))
                 {
 

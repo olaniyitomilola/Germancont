@@ -12,7 +12,7 @@ namespace German.Persistence
 		public AppDbContext(IConfiguration configuration)
 		{
 			this.configuration = configuration;
-			this.Database.Migrate();
+			//this.Database.Migrate();
 
 		}
 
